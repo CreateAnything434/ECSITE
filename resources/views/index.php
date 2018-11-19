@@ -78,7 +78,7 @@
 				<a href="/cart/list" class="image fit"></a>
 				<div>
 
-					<a href class="button style3 fit" data-poptrox="youtube,800x400">注文カート</a>
+					<a href class="button style3 fit" data-poptrox="youtube,800x400">注文カートの中身</a>
 				</div>
 			</div>
 

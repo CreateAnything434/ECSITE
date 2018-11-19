@@ -13,7 +13,7 @@
 Route::get("/index",function(){
     $index = DB::select("SELECT * FROM e_items");
     return view("index",[
-      "index" => $e_items
+      "e_items" => $index
     ]);
 });
 
@@ -21,23 +21,14 @@ Route::get("/index/{id}",function($id){
     $index = DB::select("SELECT * FROM e_items where id = ?",[$id]);
     if(count($index) > 0){
         return view("item_detail",[
-          "index" => $e_items[0]
+          "e_items" => $index[0]
         ]);
     }else{
         return abort(404);
     }
 });
 
-Route::get("/cart/list",function(){
-    return view("cart_list");
-});
 
-Route::get("/cart/list",function(){
-    $cartItems = session()->get("CART_ITEMS",[]);
-    return view("cart_list", [
-        "cartItems" => $cartItems
-    ]);
-});
 
 Route::get("/cart/list",function(){
     // DBからデータを１つ取り出す。
@@ -49,7 +40,7 @@ Route::get("/cart/list",function(){
     session()->put("CART_ITEMS",$cartItems);
 
     return view("cart_list", [
-        "cartItems" => $cartItems
+        "e_items" => $cartItems
     ]);
 });
 
@@ -60,29 +51,16 @@ Route::post("/cart/add",function(){
     if(count($index) > 0){
         // セッションにデータを追加して格納
         $cartItems = session()->get("CART_ITEMS",[]);
-        $cartItems[] = $e_items[0];
-        session()->put("CART_ITEMS",$cartItems);
+        $cartItems[] = $index[0];
+        session()->put("CART_e_items",$cartItems);
         return redirect("/cart/list");
     }else{
         return abort(404);
     }
 });
 
-Route::get("/cart/list",function(){
-    // セッションからカートの情報を取り出す
-    $cartItems = session()->get("CART_ITEMS",[]);
 
-    return view("cart_list", [
-        "cartItems" => $cartItems
-    ]);
-});
 
-Route::get("/index",function(){
-    $index = DB::select("SELECT * FROM e_items");
-    return view("index",[
-      "index" => $index
-    ]);
-});
 
 Route::get("/orders",function(){
     return view("orders");
@@ -117,9 +95,26 @@ Route::post("/orders",function(){
     return redirect("/orders/thanks");
 });
 
-Route::get("index",function(){
-    $index = DB::select("SELECT * FROM e_items");
-    return view("index",[
-      "index" => $index
-    ]);
+
+  Route::post("/order",function(){
+
+      if(request()->get("name") == ""){
+          return redirect("/order");
+      }
+      if(request()->get("address") == ""){
+          return redirect("/order");
+      }
+
+      // ここで カートの中身をDBに保存する
+      DB::insert("INSERT into orders (name,address,tel,email,orders) VALUES (?,?,?,?,?)",[
+          request()->get("name"),
+          request()->get("address"),
+          request()->get("tel"),
+          request()->get("email"),
+          json_encode(session()->get("CART_ITEMS"))
+      ]);
+
+      session()->forget("CART_ITEMS"); // ここでカートを空に
+
+      return redirect("/order/thanks");
   });
