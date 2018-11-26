@@ -7,13 +7,11 @@
 
 商品名：<?=$index->name?><br><br>
 価格：<?=$index->price?><br><br>
+<?php endforeach; ?>
 
 
-
-<form action="/orders" method="post">
+<form action="/order" method="post">
   <?= csrf_field()?>
   <input type="hidden" name="item_id" value= "<?=$index->id?>">
-  <input type="submit" value="注文する">
+  <input type="submit" value="注文">
 </form>
-
-<?php endforeach; ?>

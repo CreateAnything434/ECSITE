@@ -23,7 +23,7 @@
 					<div class="inner">
 						<header>
 							<h1>My SHOP for electric instuments</h1>
-							<p>ここのショップはオペアンプ等の電子部品を取り扱っているショップです。NOSの部品もあります。<br />
+							<p>ここのショップはオペアンプ等の電子部品を取り扱っているショップです。<br>NOSの部品もあります。
 							</p>
 						</header>
 						<a href="#main" class="more">Learn More</a>
@@ -43,9 +43,10 @@
 							<div>
 							              <?=$index->name?>
 							    <img src="<?=$index->img?>"/>
+
 							</div>
 <?php endforeach; ?>
-						</div>
+</div>
 												</div>
 
 <h2>↓商品ページ↓</h2>

@@ -78,14 +78,30 @@ Route::post("/cart/add",function(){
     }
 });
 
-  Route::post("/order",function(){
+Route::post("/order",function(){
 
-      if(request()->get("name") == ""){
-          return redirect("/order");
-      }
-      if(request()->get("address") == ""){
-          return redirect("/order");
-      }
+    if(request()->get("name") == ""){
+        return redirect("/order");
+    }
+    if(request()->get("address") == ""){
+        return redirect("/order");
+    }
+
+    // ここで カートの中身をDBに保存する
+    DB::insert("INSERT into orders (name,address,tel,email,orders) VALUES (?,?,?,?,?)",[
+        request()->get("name"),
+        request()->get("address"),
+        request()->get("tel"),
+        request()->get("email"),
+        json_encode(session()->get("CART_ITEMS"))
+    ]);
+
+    session()->forget("CART_ITEMS"); // ここでカートを空に
+
+    return redirect("/order/thanks");
+});
+
+  Route::get("/order",function(){
 
       // ここで カートの中身をDBに保存する
       DB::insert("INSERT into orders (name,address,tel,email,orders) VALUES (?,?,?,?,?)",[
@@ -100,3 +116,39 @@ Route::post("/cart/add",function(){
 
       return redirect("/order/thanks");
   });
+
+  Route::post("/order",function(){
+
+    $error = false; //フォームにエラーが有るかどうか
+    $errorMessage = []; // エラーメッセージ
+
+    if(request()->get("name") == ""){
+        $error = true;
+        $errorMessage[] = "名前を入力してください";
+    }
+    if(request()->get("address") == ""){
+        $error = true;
+        $errorMessage[] = "住所を入力してください";
+    }
+
+    if($error){
+        session()->put("FORM_MESSAGES",$errorMessage);
+        session()->put("OLD_FORM",request()->all());
+        return redirect("/order");
+    }
+
+      session()->forget("CART_ITEMS"); // ここでカートを空に
+
+    return redirect("/order/thanks");
+});
+
+Route::get("/order",function(){
+  $errors = session()->get("ERRRO_MESSAGES",[]);
+  $inputs = session()->get("OLD_FORM",[]);
+  session()->get("ERROR_MESSAGES");
+  session()->get("OLD_FORM");
+  return view("order",[
+      "inputs" => $inputs,
+      "errors" => $errors
+  ]);
+});
