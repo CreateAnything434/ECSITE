@@ -50,6 +50,19 @@ Route::get("/cart/list",function(){
         "e_items" => $cartItems
     ]);
 });
+Route::post("/cart/list",function(){
+    // DBからデータを１つ取り出す。
+    $index = DB::select("SELECT * FROM e_items where id = 1");
+    // セッションからカートの情報を取り出す
+    $cartItems = session()->get("CART_ITEMS",[]);
+    // セッションにデータを追加して格納
+    $cartItems[] = $index[0];
+    session()->put("CART_ITEMS",$cartItems);
+
+    return view("cart_list", [
+        "e_items" => $cartItems
+    ]);
+});
 Route::post("/cart/add",function(){
     // フォームから IDを読み込みDBへ問い合わせる
     $id = request()->get("item_id");
@@ -64,6 +77,7 @@ Route::post("/cart/add",function(){
         return abort(404);
     }
 });
+
   Route::post("/order",function(){
 
       if(request()->get("name") == ""){

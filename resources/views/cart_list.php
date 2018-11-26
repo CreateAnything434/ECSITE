@@ -9,6 +9,7 @@
 価格：<?=$index->price?><br><br>
 
 
+
 <form action="/orders" method="post">
   <?= csrf_field()?>
   <input type="hidden" name="item_id" value= "<?=$index->id?>">

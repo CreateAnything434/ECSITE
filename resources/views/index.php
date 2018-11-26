@@ -38,7 +38,7 @@
 
 <div class="thumbnails">
 	<div class="box">
-		<a href="/cart/add" class="image fit">
+		<h2>いまそろっている商品たち</h2>
 							<?php foreach($e_items as $index): ?>
 							<div>
 							              <?=$index->name?>
@@ -48,7 +48,7 @@
 						</div>
 												</div>
 
-
+<h2>↓商品ページ↓</h2>
 												<form action="/index/01" method="post">
 													<?= csrf_field()?>
 													<input type="hidden" name="item_id" value= "<?=$index->id?>">
