@@ -27,9 +27,16 @@ Route::get("/index/{id}",function($id){
         return abort(404);
     }
 });
-
-
-
+Route::post("/index/{id}",function($id){
+    $index = DB::select("SELECT * FROM e_items where id = ?",[$id]);
+    if(count($index) > 0){
+        return view("item_detail",[
+          "e_items" => $index[0]
+        ]);
+    }else{
+        return abort(404);
+    }
+});
 Route::get("/cart/list",function(){
     // DBからデータを１つ取り出す。
     $index = DB::select("SELECT * FROM e_items where id = 1");
@@ -43,7 +50,6 @@ Route::get("/cart/list",function(){
         "e_items" => $cartItems
     ]);
 });
-
 Route::post("/cart/add",function(){
     // フォームから IDを読み込みDBへ問い合わせる
     $id = request()->get("item_id");
@@ -52,50 +58,12 @@ Route::post("/cart/add",function(){
         // セッションにデータを追加して格納
         $cartItems = session()->get("CART_ITEMS",[]);
         $cartItems[] = $index[0];
-        session()->put("CART_e_items",$cartItems);
+        session()->put("CART_ITEMS",$cartItems);
         return redirect("/cart/list");
     }else{
         return abort(404);
     }
 });
-
-
-
-
-Route::get("/orders",function(){
-    return view("orders");
-});
-Route::get("/orders/thanks",function(){
-    return view("thanks");
-});
-
-Route::post("/orders",function(){
-
-    // ここで カートの中身をDBに保存する
-    DB::insert("INSERT into orders (name,address,tel,email,orders) VALUES (?,?,?,?,?)",[
-        request()->get("name"),
-        request()->get("address"),
-        request()->get("tel"),
-        request()->get("email"),
-        json_encode(session()->get("CART_ITEMS"))
-    ]);
-
-    session()->forget("CART_ITEMS"); // ここでカートを空に
-
-    return redirect("/orders/thanks");
-});
-
-
-Route::post("/orders",function(){
-
-    // ここで カートの中身をDBに保存する
-
-    session()->forget("CART_ITEMS"); // ここでカートを空に
-
-    return redirect("/orders/thanks");
-});
-
-
   Route::post("/order",function(){
 
       if(request()->get("name") == ""){

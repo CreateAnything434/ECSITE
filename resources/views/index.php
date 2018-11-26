@@ -39,16 +39,31 @@
 <div class="thumbnails">
 	<div class="box">
 		<a href="/cart/add" class="image fit">
-							<?php foreach($index as $e_items): ?>
+							<?php foreach($e_items as $index): ?>
 							<div>
-							    <?=$e_items->name?>
-							    <img src="<?=$e_items->img?>"/>
+							              <?=$index->name?>
+							    <img src="<?=$index->img?>"/>
 							</div>
-							<?php endforeach; ?>
+<?php endforeach; ?>
 						</div>
 												</div>
 
 
+												<form action="/index/01" method="post">
+													<?= csrf_field()?>
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="LM733の在庫">
+												</form>
+												<form action="/index/02" method="post">
+													<?= csrf_field()?>
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="2SC1345の在庫">
+												</form>
+												<form action="/index/03" method="post">
+													<?= csrf_field()?>
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="FineGoldの在庫">
+												</form>
 
 
 
@@ -74,13 +89,14 @@
 			<script src="assets/js/main.js"></script>
 
 
-			<div class="box">
-				<a href="/cart/list" class="image fit"></a>
-				<div>
 
-					<a href class="button style3 fit" data-poptrox="youtube,800x400">注文カートの中身</a>
-				</div>
-			</div>
+				<form action="/cart/list" method="post">
+				  <?= csrf_field()?>
+				  <input type="hidden" name="item_id" value= "<?=$index->id?>">
+				  <input type="submit" value="カートの中身">
+				</form>
+
+
 
 	</body>
 </html>
