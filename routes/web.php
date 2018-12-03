@@ -16,6 +16,12 @@ Route::get("/index",function(){
       "e_items" => $index
     ]);
 });
+Route::post("/index",function(){
+    $index = DB::select("SELECT * FROM e_items");
+    return view("index",[
+      "e_items" => $index
+    ]);
+});
 
 Route::get("/index/{id}",function($id){
     $index = DB::select("SELECT * FROM e_items where id = ?",[$id]);
@@ -37,6 +43,20 @@ Route::post("/index/{id}",function($id){
         return abort(404);
     }
 });
+
+Route::post("/cart/list",function(){
+    // DBからデータを１つ取り出す。
+    $index = DB::select("SELECT * FROM e_items where id = 1");
+    // セッションからカートの情報を取り出す
+    $cartItems = session()->get("CART_ITEMS",[]);
+    // セッションにデータを追加して格納
+    $cartItems[] = $index[0];
+    session()->put("CART_ITEMS",$cartItems);
+
+    return view("cart_list", [
+        "e_items" => $cartItems
+    ]);
+});
 Route::get("/cart/list",function(){
     // DBからデータを１つ取り出す。
     $index = DB::select("SELECT * FROM e_items where id = 1");
@@ -50,14 +70,27 @@ Route::get("/cart/list",function(){
         "e_items" => $cartItems
     ]);
 });
-Route::post("/cart/list",function(){
+Route::get("/cart/clear",function(){
     // DBからデータを１つ取り出す。
     $index = DB::select("SELECT * FROM e_items where id = 1");
     // セッションからカートの情報を取り出す
     $cartItems = session()->get("CART_ITEMS",[]);
     // セッションにデータを追加して格納
     $cartItems[] = $index[0];
-    session()->put("CART_ITEMS",$cartItems);
+    session()->forget("CART_ITEMS",$cartItems);
+
+    return view("cart_list", [
+        "e_items" => $cartItems
+    ]);
+});
+Route::post("/cart/clear",function(){
+    // DBからデータを１つ取り出す。
+    $index = DB::select("SELECT * FROM e_items where id = 1");
+    // セッションからカートの情報を取り出す
+    $cartItems = session()->get("CART_ITEMS",[]);
+    // セッションにデータを追加して格納
+    $cartItems[] = $index[0];
+    session()->forget("CART_ITEMS",$cartItems);
 
     return view("cart_list", [
         "e_items" => $cartItems

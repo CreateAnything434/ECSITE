@@ -9,8 +9,9 @@
 価格：<?=$e_items->price?><br><br>
 
 
-  <?= csrf_field()?>
+
   <form action="/cart/add" method="post">
+		<?= csrf_field()?>
   <input type="hidden" name="item_id" value="<?=$e_items->id?>">
   <input type="submit" value="カートに追加">
 </form>

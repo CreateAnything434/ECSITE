@@ -15,3 +15,13 @@
   <input type="hidden" name="item_id" value= "<?=$index->id?>">
   <input type="submit" value="注文">
 </form>
+<form action="/cart/clear" method="post">
+  <?= csrf_field()?>
+  <input type="hidden" name="item_id" value= "<?=$index->id?>">
+  <input type="submit" value="カートを空にする">
+</form>
+<form action="/index" method="post">
+  <?= csrf_field()?>
+  <input type="hidden" name="item_id" value= "<?=$index->id?>">
+  <input type="submit" value="注文を続ける">
+</form>
