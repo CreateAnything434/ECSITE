@@ -52,17 +52,17 @@
 <h2>↓商品ページ↓</h2>
 												<form action="/index/01" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
 													<input type="submit" value="LM733の在庫">
 												</form>
 												<form action="/index/02" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
 													<input type="submit" value="2SC1345の在庫">
 												</form>
 												<form action="/index/03" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
 													<input type="submit" value="FineGoldの在庫">
 												</form>
 
@@ -75,12 +75,8 @@
 					</div>
 				</div>
 
-			<!-- Footer -->
-			<footer?
-			<div>
-			<p class="copyright">&copy;  Designed by <a href="https://templated.co">TEMPLATED</a>.</p>
-	</div>
-</footer>
+
+
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -101,3 +97,9 @@
 
 	</body>
 </html>
+<!-- Footer -->
+<footer>
+<div>
+<p class="copyright">&copy;  Designed by <a href="https://templated.co">TEMPLATED</a>.</p>
+</div>
+</footer>
