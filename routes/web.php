@@ -16,6 +16,11 @@ Route::get("/index",function(){
       "e_items" => $index
     ]);
 });
+
+Route::get("/order/thanks",function(){
+    return view("thanks");
+});
+
 Route::post("/index",function(){
     $index = DB::select("SELECT * FROM e_items");
     return view("index",[
@@ -110,7 +115,14 @@ Route::post("/cart/add",function(){
         return abort(404);
     }
 });
+Route::post("/order",function(){
 
+    // ここで カートの中身をDBに保存する
+
+    session()->forget("CART_ITEMS"); // ここでカートを空に
+
+    return redirect("/order/thanks");
+});
 Route::post("/order",function(){
 
     if(request()->get("name") == ""){
@@ -152,6 +164,21 @@ Route::post("/order",function(){
 
   Route::post("/order",function(){
 
+      // ここで カートの中身をDBに保存する
+      DB::insert("INSERT into orders (name,address,tel,email,orders) VALUES (?,?,?,?,?)",[
+          request()->get("name"),
+          request()->get("address"),
+          request()->get("tel"),
+          request()->get("email"),
+          json_encode(session()->get("CART_ITEMS"))
+      ]);
+
+      session()->forget("CART_ITEMS"); // ここでカートを空に
+
+      return redirect("/order/thanks");
+  });
+  Route::get("/order",function(){
+
     $error = false; //フォームにエラーが有るかどうか
     $errorMessage = []; // エラーメッセージ
 
@@ -174,6 +201,7 @@ Route::post("/order",function(){
 
     return redirect("/order/thanks");
 });
+
 
 Route::get("/order",function(){
   $errors = session()->get("ERRRO_MESSAGES",[]);

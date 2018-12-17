@@ -38,34 +38,37 @@
 
 <div class="thumbnails">
 	<div class="box">
+		<a href class="image fit">
 		<h2>いまそろっている商品たち</h2>
 							<?php foreach($e_items as $index): ?>
-							<div>
 							              <?=$index->name?>
 							    <img src="<?=$index->img?>"/>
 
-							</div>
+
 <?php endforeach; ?>
+</a>
 </div>
 												</div>
 
-<h2>↓商品ページ↓</h2>
+
+	<div class="box">
+		<h2>↓商品ページ↓</h2>
 												<form action="/index/01" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
-													<input type="submit" value="LM733の在庫">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="LM733の在庫" style="width:200px;height:50px">
 												</form>
 												<form action="/index/02" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
-													<input type="submit" value="2SC1345の在庫">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="2SC1345の在庫" style="width:200px;height:50px" >
 												</form>
 												<form action="/index/03" method="post">
 													<?= csrf_field()?>
-													<input type="hidden" name="item_id" value= "<?=$index->id?>""<?=$index->img?>">
-													<input type="submit" value="FineGoldの在庫">
+													<input type="hidden" name="item_id" value= "<?=$index->id?>">
+													<input type="submit" value="FineGoldの在庫" style="width:200px;height:50px">
 												</form>
-
+</div>
 
 
 							</div>
@@ -90,7 +93,7 @@
 				<form action="/cart/list" method="post">
 				  <?= csrf_field()?>
 				  <input type="hidden" name="item_id" value= "<?=$index->id?>">
-				  <input type="submit" value="カートの中身">
+				  <input type="submit" value="カートの中身" style="width:200px;height:50px">
 				</form>
 
 

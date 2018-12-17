@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/assets/css/main.css" />
 	<meta charset="utf-8" />
-
+<div class="box">
 <?php foreach($e_items as $index): ?>
 
 商品名：<?=$e_items->name?><br><br>
@@ -13,7 +13,7 @@
   <form action="/cart/add" method="post">
 		<?= csrf_field()?>
   <input type="hidden" name="item_id" value="<?=$e_items->id?>">
-  <input type="submit" value="カートに追加">
+  <input type="submit" value="カートに追加" style="width:200px;height:50px">
 </form>
-
+</div>
 <?php endforeach; ?>
